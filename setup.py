@@ -1,10 +1,12 @@
 import os
 
-from setuptools import setup
+from setuptools import setup  # type: ignore[import-untyped]
 
 if os.environ.get("USE_MYPYC") == "1":
     import glob
-    from mypyc.build import mypycify
+
+    from mypyc.build import mypycify  # type: ignore[import-untyped]
+
     files = glob.glob("src/**/*.py", recursive=True)
     ext_modules = mypycify(files)
 else:
