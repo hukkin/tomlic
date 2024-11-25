@@ -10,6 +10,7 @@ on:
 env:
   CIBW_TEST_COMMAND: python -m unittest
   CIBW_SKIP: pp*
+  CIBW_ENVIRONMENT_PASS_LINUX: USE_MYPYC
 
 jobs:
 
