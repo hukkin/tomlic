@@ -97,7 +97,7 @@ jobs:
 
     - uses: actions/upload-artifact@v4
       with:
-        name: artifacts
+        name: artifact-standard-${{ matrix.runs-on }}
         path: wheelhouse/*.whl
         if-no-files-found: error
 
@@ -116,7 +116,7 @@ jobs:
 
     - uses: actions/upload-artifact@v4
       with:
-        name: artifacts
+        name: artifact-pure-python
         path: dist/*
         if-no-files-found: error
 
@@ -144,7 +144,7 @@ jobs:
 
     - uses: actions/upload-artifact@v4
       with:
-        name: artifacts
+        name: artifact-arm-linux
         path: wheelhouse/*.whl
         if-no-files-found: error
 
@@ -168,8 +168,9 @@ jobs:
     steps:
     - uses: actions/download-artifact@v4
       with:
-        name: artifacts
         path: dist
+        pattern: artifact-*
+        merge-multiple: true
     - uses: actions/setup-python@v5
       with:
         python-version: '3.x'
