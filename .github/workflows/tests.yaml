@@ -100,52 +100,52 @@ jobs:
         path: wheelhouse/*.whl
         if-no-files-found: error
 
-    pure-python-wheel-and-sdist:
-      name: Build a pure Python wheel and source distribution
-      runs-on: ubuntu-latest
+  pure-python-wheel-and-sdist:
+    name: Build a pure Python wheel and source distribution
+    runs-on: ubuntu-latest
 
-      steps:
-      - uses: actions/checkout@v4
+    steps:
+    - uses: actions/checkout@v4
 
-      - name: Install build dependencies
-        run: pip install build
+    - name: Install build dependencies
+      run: pip install build
 
-      - name: Build
-        run: python -m build
+    - name: Build
+      run: python -m build
 
-      - uses: actions/upload-artifact@v4
-        with:
-          name: artifacts
-          path: dist/*
-          if-no-files-found: error
+    - uses: actions/upload-artifact@v4
+      with:
+        name: artifacts
+        path: dist/*
+        if-no-files-found: error
 
-    binary-wheels-arm:
-      name: Build Linux wheels for ARM
-      runs-on: ubuntu-latest
-      # Very slow, no need to run on PRs
-      if: >
-        github.event_name == 'push'
-        &&
-        (github.ref == 'refs/heads/master' || startsWith(github.event.ref, 'refs/tags'))
-      steps:
-      - uses: actions/checkout@v4
+  binary-wheels-arm:
+    name: Build Linux wheels for ARM
+    runs-on: ubuntu-latest
+    # Very slow, no need to run on PRs
+    if: >
+      github.event_name == 'push'
+      &&
+      (github.ref == 'refs/heads/master' || startsWith(github.event.ref, 'refs/tags'))
+    steps:
+    - uses: actions/checkout@v4
 
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
-        with:
-          platforms: arm64
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v3
+      with:
+        platforms: arm64
 
-      - name: Build wheels
-        uses: pypa/cibuildwheel@v2
-        env:
-          CIBW_ARCHS_LINUX: aarch64
-          USE_MYPYC: '1'
+    - name: Build wheels
+      uses: pypa/cibuildwheel@v2
+      env:
+        CIBW_ARCHS_LINUX: aarch64
+        USE_MYPYC: '1'
 
-      - uses: actions/upload-artifact@v4
-        with:
-          name: artifacts
-          path: wheelhouse/*.whl
-          if-no-files-found: error
+    - uses: actions/upload-artifact@v4
+      with:
+        name: artifacts
+        path: wheelhouse/*.whl
+        if-no-files-found: error
 
   allgood:
     runs-on: ubuntu-latest
