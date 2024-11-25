@@ -92,7 +92,7 @@ jobs:
     - name: Build wheels
       uses: pypa/cibuildwheel@v2.22.0
       env:
-        CIBW_ARCHS_MACOS: x86_64
+        CIBW_ARCHS_MACOS: x86_64 arm64
         USE_MYPYC: '1'
 
     - uses: actions/upload-artifact@v4
@@ -123,11 +123,11 @@ jobs:
   binary-wheels-arm:
     name: Build Linux wheels for ARM
     runs-on: ubuntu-latest
-    # Very slow, no need to run on PRs
-#    if: >
-#      github.event_name == 'push'
-#      &&
-#      (github.ref == 'refs/heads/master' || startsWith(github.event.ref, 'refs/tags'))
+    # Very slow (~ 1 hour), no need to run on PRs
+    if: >
+      github.event_name == 'push'
+      &&
+      (github.ref == 'refs/heads/master' || startsWith(github.event.ref, 'refs/tags'))
     steps:
     - uses: actions/checkout@v4
 
